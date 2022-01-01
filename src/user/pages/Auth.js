@@ -72,7 +72,7 @@ const {isLoading,error,clearError,sendRequest}=useHttpClient();
        
         
         console.log('jsondata',response);
-    auth.login();
+    auth.login(response.user.id);
 
       }
       catch(e){
