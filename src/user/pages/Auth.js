@@ -13,13 +13,12 @@ import { AuthContext } from '../../shared/context/auth-context';
 import './Auth.css';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import ErrorModal from "../../shared/components/UIElements/ErrorModal"
-
+import useHttpClient from '../../shared/hooks/http-hook';
 const Auth = () => {
   const auth = useContext(AuthContext);
   const [isLoginMode, setIsLoginMode] = useState(true);
-  const [isLoading, setisLoading] = useState(false);
-  const [error, seterror] = useState(null)
 
+const {isLoading,error,clearError,sendRequest}=useHttpClient();
   const [formState, inputHandler, setFormData] = useForm(
     {
       email: {
@@ -61,7 +60,6 @@ const Auth = () => {
   const authSubmitHandler = async event => {
     event.preventDefault();
     console.log(formState.inputs);
-    setisLoading(true)
 
     if(isLoginMode){
       const payload={
@@ -70,26 +68,15 @@ const Auth = () => {
 
       }
       try{
-        const response= await fetch("http://localhost:5000/api/users/login",{
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json'
-          },
-          body:JSON.stringify(payload)
-        });
-        const jsonData=await response.json();
-        if(!response.ok){
-          throw new Error(response.message)
-        }
-        debugger
-        console.log('jsondata',jsonData);
-        setisLoading(false)
+        const response= await sendRequest("http://localhost:5000/api/users/login",'POST',JSON.stringify(payload),{'Content-Type':'application/json'});
+       
+        
+        console.log('jsondata',response);
     auth.login();
 
       }
       catch(e){
-        setisLoading(false)
-        seterror(e.message||'Something went wrong, Please try again later')
+       
 
 
       }
@@ -102,26 +89,19 @@ const Auth = () => {
   
       }
       try{
-        const response= await fetch("http://localhost:5000/api/users/signup",{
-          method:'POST',
-          headers:{
+        const response= await sendRequest("http://localhost:5000/api/users/signup",
+        'POST',
+
+         JSON.stringify(payload),
+          {
             'Content-Type':'application/json'
           },
-          body:JSON.stringify(payload)
-        });
-        const jsonData=await response.json();
-        if(!response.ok){
-          throw new Error(response.message)
-        }
-        debugger
-        console.log('jsondata',jsonData);
-        setisLoading(false)
-    auth.login();
+        );
+       
 
       }
       catch(e){
-        setisLoading(false)
-        seterror(e.message||'Something went wrong, Please try again later')
+        
 
 
       }
@@ -132,7 +112,7 @@ const Auth = () => {
 
   return (
     <>
-      {error&&<ErrorModal error={error} onClear={()=>seterror(null)}/>}
+      {error&&<ErrorModal error={error} onClear={()=>clearError()}/>}
 
     <Card className="authentication">
       {isLoading&&<LoadingSpinner asOverlay/>}
