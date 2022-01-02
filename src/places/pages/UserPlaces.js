@@ -52,11 +52,15 @@ const UserPlaces = () => {
     fetchRequest()
   }, [sendRequest, userId])
   // const loadedPlaces = DUMMY_PLACES.filter(place => place.creator === userId);
+  const onDeleteItem=(deletedPlaceId)=>{
+    setloadedPlaces(prevPlace=>prevPlace.filter(data=>data.id!==deletedPlaceId))
+
+  }
   return <>
     <ErrorModal error={error} clearError={clearError} />
     {isLoading && <div className="center"><LoadingSpinner /></div>}
     {!isLoading && loadedPlaces &&
-      <PlaceList items={loadedPlaces} />
+      <PlaceList items={loadedPlaces} deleteItem={onDeleteItem}/>
     }
   </>;
 };
