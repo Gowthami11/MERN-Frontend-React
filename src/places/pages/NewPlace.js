@@ -54,7 +54,7 @@ const auth=useContext(AuthContext)
     return (
       <>
       {isLoading&&<LoadingSpinner asOverlay/>}
-      <ErrorModal error={error} clearError={clearError}/>
+      <ErrorModal error={error} onClear={clearError}/>
       <form className="place-form" onSubmit={placeSubmitHandler}>
         <Input
           id="title"

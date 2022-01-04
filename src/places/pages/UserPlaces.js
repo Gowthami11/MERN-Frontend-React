@@ -57,7 +57,7 @@ const UserPlaces = () => {
 
   }
   return <>
-    <ErrorModal error={error} clearError={clearError} />
+    <ErrorModal error={error} onClear={clearError} />
     {isLoading && <div className="center"><LoadingSpinner /></div>}
     {!isLoading && loadedPlaces &&
       <PlaceList items={loadedPlaces} deleteItem={onDeleteItem}/>

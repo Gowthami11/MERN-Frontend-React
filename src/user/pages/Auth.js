@@ -12,7 +12,8 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { AuthContext } from '../../shared/context/auth-context';
 import './Auth.css';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
-import ErrorModal from "../../shared/components/UIElements/ErrorModal"
+import ErrorModal from "../../shared/components/UIElements/ErrorModal";
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import useHttpClient from '../../shared/hooks/http-hook';
 const Auth = () => {
   const auth = useContext(AuthContext);
@@ -38,7 +39,8 @@ const {isLoading,error,clearError,sendRequest}=useHttpClient();
       setFormData(
         {
           ...formState.inputs,
-          name: undefined
+          name: undefined,
+          image:undefined
         },
         formState.inputs.email.isValid && formState.inputs.password.isValid
       );
@@ -49,6 +51,10 @@ const {isLoading,error,clearError,sendRequest}=useHttpClient();
           name: {
             value: '',
             isValid: false
+          },
+          image:{
+            value:'',
+            isValid:false
           }
         },
         false
@@ -148,6 +154,7 @@ const {isLoading,error,clearError,sendRequest}=useHttpClient();
           errorText="Please enter a valid password, at least 6 characters."
           onInput={inputHandler}
         />
+        {!isLoginMode&&<ImageUpload id="image"  center onInput={inputHandler}/>}
         <Button type="submit" disabled={!formState.isValid}>
           {isLoginMode ? 'LOGIN' : 'SIGNUP'}
         </Button>
