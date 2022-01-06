@@ -88,21 +88,26 @@ const {isLoading,error,clearError,sendRequest}=useHttpClient();
       }
     }
     else{
-      const payload={
-        email:formState.inputs.email.value,
-        pwd:formState.inputs.password.value,
-        uname:formState.inputs.name.value
+      //no need to stringify and ssend headers, when formdata is used
+      const formData=new FormData();
+      formData.append("email",formState.inputs.email.value);
+      formData.append("pwd",formState.inputs.password.value);
+      formData.append("uname",formState.inputs.name.value);
+      formData.append("image",formState.inputs.image.value)
+      // const payload={
+      //   email:formState.inputs.email.value,
+      //   pwd:formState.inputs.password.value,
+      //   uname:formState.inputs.name.value
   
-      }
+      // }
       try{
         const response= await sendRequest("http://localhost:5000/api/users/signup",
         'POST',
 
-         JSON.stringify(payload),
-          {
-            'Content-Type':'application/json'
-          },
+         formData
         );
+    auth.login(response.user.id);
+
        
 
       }
