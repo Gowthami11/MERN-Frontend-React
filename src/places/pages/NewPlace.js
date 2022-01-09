@@ -12,6 +12,7 @@ import useHttpClient from '../../shared/hooks/http-hook';
 import ErrorModal from '../../shared/components/UIElements/ErrorModal';
 import LoadingSpinner from '../../shared/components/UIElements/LoadingSpinner';
 import {AuthContext} from "../../shared/context/auth-context"
+import ImageUpload from '../../shared/components/FormElements/ImageUpload';
 import Auth from '../../user/pages/Auth';
  const NewPlace = () => {
   const [formState, inputHandler] = useForm(
@@ -27,6 +28,10 @@ import Auth from '../../user/pages/Auth';
       address: {
         value: '',
         isValid: false
+      },
+      image:{
+        value:'',
+        isValid:false
       }
     },
     false
@@ -36,14 +41,15 @@ const auth=useContext(AuthContext)
   const placeSubmitHandler = async event => {
     event.preventDefault();
     console.log(formState.inputs); // send this to the backend!
-    const payload = {
-      title: formState.inputs.title.value,
-      description: formState.inputs.description.value,
-      address: formState.inputs.address.value,
-      creator:auth.userId
-    }
+    const formData=new FormData();
+    formData.append("title",formState.inputs.title.value);
+    formData.append("description",formState.inputs.description.value);
+    formData.append("address",formState.inputs.address.value);
+    formData.append("creator",auth.userId);
+    formData.append("image",formState.inputs.image.value);
+  
     try{
-    const response = await sendRequest("http://localhost:5000/api/places", 'POST', JSON.stringify(payload), { "Content-Type": "application/json" })
+    const response = await sendRequest("http://localhost:5000/api/places", 'POST', formData)
 
 
     }catch(e){
@@ -81,6 +87,7 @@ const auth=useContext(AuthContext)
           errorText="Please enter a valid address."
           onInput={inputHandler}
         />
+        <ImageUpload id="image" center onInput={inputHandler} errorText="please select an image"/>
         <Button type="submit" disabled={!formState.isValid}>
           ADD PLACE
         </Button>
