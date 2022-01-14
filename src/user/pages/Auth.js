@@ -78,7 +78,8 @@ const {isLoading,error,clearError,sendRequest}=useHttpClient();
        
         
         console.log('jsondata',response);
-    auth.login(response.user.id);
+        debugger
+    auth.login(response.userId,response.token);
 
       }
       catch(e){
@@ -106,7 +107,7 @@ const {isLoading,error,clearError,sendRequest}=useHttpClient();
 
          formData
         );
-    auth.login(response.user.id);
+    auth.login(response.userId,response.token);
 
        
 
