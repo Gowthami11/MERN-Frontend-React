@@ -49,7 +49,7 @@ const auth=useContext(AuthContext)
     formData.append("image",formState.inputs.image.value);
   
     try{
-    const response = await sendRequest("http://localhost:5000/api/places", 'POST', formData,{
+    const response = await sendRequest(process.env.REACT_APP_BACKEND_URL+"/places", 'POST', formData,{
       Authorization:'Beareer '+auth.token
     })
 

@@ -24,9 +24,10 @@
 .nav-links a:hover,
 .nav-links a:active,
 .nav-links a.active {
-  background: #f8df00;
-  border-color: #292929;
+  background: white;
+  border-color: #760cee;
   color: #292929;
+  border-radius: 10px;
 }
 
 .nav-links button {

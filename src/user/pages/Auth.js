@@ -74,7 +74,7 @@ const {isLoading,error,clearError,sendRequest}=useHttpClient();
 
       }
       try{
-        const response= await sendRequest("http://localhost:5000/api/users/login",'POST',JSON.stringify(payload),{'Content-Type':'application/json'});
+        const response= await sendRequest(process.env.REACT_APP_BACKEND_URL+"/users/login",'POST',JSON.stringify(payload),{'Content-Type':'application/json'});
        
         
         console.log('jsondata',response);
@@ -102,7 +102,7 @@ const {isLoading,error,clearError,sendRequest}=useHttpClient();
   
       // }
       try{
-        const response= await sendRequest("http://localhost:5000/api/users/signup",
+        const response= await sendRequest(process.env.REACT_APP_BACKEND_URL+"/users/signup",
         'POST',
 
          formData
