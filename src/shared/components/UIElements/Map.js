@@ -6,22 +6,14 @@ const Map = props => {
   const mapRef = useRef();
   
   const { center, zoom } = props;
-debugger;
-  useEffect(() => {
-    let map
-    const googleScript = document.getElementById('google-map-script')
 
-   
-    
-    if(window.google){
-     map = new window.google.maps.Map(mapRef.current, {
+  useEffect(() => {
+    const map = new window.google.maps.Map(mapRef.current, {
       center: center,
       zoom: zoom
     });
-
-    console.log('map',map)
   
-    new window.google.maps.Marker({ position: center, map: map });}
+    new window.google.maps.Marker({ position: center, map: map });
   }, [center, zoom]);  
 
   return (
